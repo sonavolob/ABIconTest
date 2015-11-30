@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:abicontest="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+
+
+    <item
+        android:id="@+id/action_edit_selected"
+        android:title="@string/action_edit_selected_title"
+        android:icon="@drawable/ic_mode_edit_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="79"/>
+    <item
+        android:id="@+id/action_copy_selected"
+        android:title="@string/action_copy_selected_title"
+        android:icon="@drawable/ic_content_copy_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="80"/>
+
+    <item
+        android:id="@+id/action_cut_selected"
+        android:title="@string/action_cut_selected_title"
+        android:icon="@drawable/ic_content_cut_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="81"/>
+
+    <item
+        android:id="@+id/action_paste"
+        android:title="@string/action_paste_title"
+        android:icon="@drawable/ic_content_paste_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="82"/>
+
+    <item
+        android:id="@+id/action_link_selected"
+        android:title="@string/action_link_selected_title"
+        android:icon="@drawable/ic_link_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="83"/>
+
+    <item
+        android:id="@+id/action_redo"
+        android:title="@string/action_undo_title"
+        android:icon="@drawable/ic_undo_24dp"
+        android:showAsAction="ifRoom"
+        android:orderInCategory="84"/>
+
+    <item
+        android:id="@+id/action_undo"
+        android:title="@string/action_redo_title"
+        android:icon="@drawable/ic_redo_24dp"
+        android:showAsAction="never"
+        android:orderInCategory="85"/>
+
+
+</menu>

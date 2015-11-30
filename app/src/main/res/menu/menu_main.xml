@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:abicontest="http://schemas.android.com/apk/res-auto">
+
+
+        <item android:id="@+id/action_search"
+              android:title="@string/search_title"
+              abicontest:actionViewClass="android.support.v7.widget.SearchView"
+              abicontest:actionLayout="@layout/search_view"
+              abicontest:showAsAction="ifRoom"
+              android:orderInCategory="80"/>
+
+        <item
+            android:id="@+id/action_filter"
+            android:title="@string/pref_default_filter"
+            android:icon="@drawable/ic_my_location_24dp"
+            abicontest:showAsAction="ifRoom"
+            android:orderInCategory="81"/>
+
+        <item android:id="@+id/action_delete"
+              android:title="@string/action_delete"
+              android:icon="@drawable/ic_delete_24dp"
+              abicontest:showAsAction="ifRoom"
+              android:orderInCategory="100"/>
+
+        <item android:id="@+id/action_settings"
+              android:title="@string/action_settings"
+              abicontest:showAsAction="never"
+              android:orderInCategory="101"/>
+
+
+</menu>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ABIconTest</string>
+    <string name="action_edit_selected_title">Edit</string>
+    <string name="action_copy_selected_title">Copy</string>
+    <string name="action_cut_selected_title">Cut</string>
+    <string name="action_cut_selected2_title">Cut</string>
+    <string name="action_cut_selected3_title">Cut</string>
+    <string name="action_cut_selected4_title">Cut</string>
+    <string name="action_cut_selected5_title">Cut</string>
+    <string name="action_paste_title">Paste</string>
+    <string name="action_link_selected_title">Link</string>
+    <string name="action_redo_title">Redo</string>
+    <string name="action_undo_title">Undo</string>
+    <string name="pref_default_filter">Filter</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_settings">Settings</string>
+    <string name="search_title">Search</string>
+</resources>
