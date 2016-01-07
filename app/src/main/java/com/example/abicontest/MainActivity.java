@@ -61,6 +61,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (savedInstanceState != null) {
             transferredInstanceState = savedInstanceState;
         }
+
+        try {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
