@@ -2,18 +2,24 @@ package com.example.abicontest;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private SearchView searchView;
     private Bundle transferredInstanceState = null;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +76,20 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             e.printStackTrace();
         }
 
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*  list.add("New Item");
+
+                adapter.notifyDataSetChanged();*/
+                floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R
+                        .mipmap.ic_gps));
+                Log.d(TAG, "_--FAB pressed");
+            }
+        });
+
     }
 
     @Override
@@ -77,13 +98,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        //  get display Metrics and calculate width
+        DisplayMetrics metrics = new DisplayMetrics();
+        Log.d(TAG, "_--displayDimension: " + getResources().getDisplayMetrics());
+        int displayWidthPixels = getResources().getDisplayMetrics().widthPixels;
+        Log.d(TAG, "_--widthPixels: " + getResources().getDisplayMetrics().widthPixels);
+
         //  create searchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(this);
-        /*searchView.setMaxWidth(240);*/
+        searchView.setMaxWidth((int) (displayWidthPixels * 0.6));
+
+
+
 
 //        menu.findItem(R.id.action_filter).setIcon(R.drawable.ic_filter_list_24dp);
 
@@ -114,8 +144,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 searchView.setQuery(transferredInstanceState
                         .getCharSequence(STATE_SEARCH_VIEW_QUERY), false);
 
-                searchView.setIconifiedByDefault(
+                searchView.setIconified(
                         transferredInstanceState.getBoolean(STATE_SEARCH_VIEW_ISICONIFIED));
+                Log.d(TAG, "searchView.getMaxWidth(): " + searchView.getMaxWidth());
                 if (transferredInstanceState.getBoolean(STATE_SEARCH_VIEW_ISFOCUSED)) {
                     searchView.requestFocus();
                 }
@@ -171,5 +202,26 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     }
 
 
+
+    /**
+     * Function - this is wrapper to change font in this activity using calligraphy
+     * @param newBase Context
+     */
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        //  Defining default calligraphy font
+        //  formally it was in onCreate, but when app is killed due to low memory, and recreated
+        //  later font is not loaded in attachBaseContext, because onCreate run after
+        //  AttachBaseContext
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/GoodDog.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+
+        Log.d(TAG, "attachBaseContext, newBase: " + newBase);
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }
