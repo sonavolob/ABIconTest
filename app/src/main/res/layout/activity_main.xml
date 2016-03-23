@@ -19,12 +19,14 @@
 
     <ListView
         android:id="@+id/results"
+        android:layout_below="@id/my_toolbar"
         android:gravity="center_horizontal"
         android:divider="@android:color/black"
         android:background="@android:color/white"
         android:dividerHeight="1dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -40,5 +42,7 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         app:borderWidth="0dp"/>
+
+
 
 </RelativeLayout>

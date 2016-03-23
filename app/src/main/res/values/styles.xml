@@ -9,6 +9,7 @@
         <item name="android:activatedBackgroundIndicator">@drawable/touch_color_result</item>
         <!--evoking CAB pushed Toolbar down below, this will avoid it-->
         <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
 </resources>
