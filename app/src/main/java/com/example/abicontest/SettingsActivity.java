@@ -19,10 +19,13 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -123,8 +126,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        Fabric.with(this, new Crashlytics());
+//        setContentView(R.layout.activity_settings);
         setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
+
 //        addPreferencesFromResource(R.xml.preferences);
 //        setupActionBar();
     }
@@ -176,8 +181,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            getActivity().setContentView(R.layout.activity_settings);
+//            getActivity().setContentView(R.layout.activity_settings);
+
             super.onCreate(savedInstanceState);
+
 //            getActivity().setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);

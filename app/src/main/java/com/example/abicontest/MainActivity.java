@@ -19,8 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import com.crashlytics.android.Crashlytics;
+
 import java.util.Arrays;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -151,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 searchView.setQuery(transferredInstanceState
                         .getCharSequence(STATE_SEARCH_VIEW_QUERY), false);
 
+                searchView.setActivated(true);
                 searchView.setIconified(
                         transferredInstanceState.getBoolean(STATE_SEARCH_VIEW_ISICONIFIED));
                 Log.d(TAG, "searchView.getMaxWidth(): " + searchView.getMaxWidth());
