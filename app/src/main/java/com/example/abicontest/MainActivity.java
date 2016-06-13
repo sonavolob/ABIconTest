@@ -1,10 +1,9 @@
 package com.example.abicontest;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +40,27 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private SearchView searchView;
     private Bundle transferredInstanceState = null;
     private FloatingActionButton floatingActionButton;
+    private StableArrayAdapter stableArrayAdapter;
+    private Activity activity;
+    private ListView listView;
+
+    private List<String> listDataElements, listDataAnimals;
+
+    public ListActive getListActive() {
+        return listActive;
+    }
+
+    public void setListActive(ListActive listActive) {
+        this.listActive = listActive;
+    }
+
+    private ListActive listActive;
+    public enum ListActive {
+
+        ELEMENTS,
+        ANIMALS
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +70,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        activity = this;
 
 
-        List<String> listData = Arrays.asList("Hydrogen", "Helium", "Lithium", "Beryllium",
+        listDataElements = Arrays.asList("Hydrogen", "Helium", "Lithium", "Beryllium",
                 "Boron", "Carbon",
                 "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminium",
                 "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium",
@@ -73,9 +94,30 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 "Copernicium", "Ununtrium", "Flerovium", "Ununpentium", "Livermorium",
                 "Ununseptium", "Ununoctium");
 
-        StableArrayAdapter stableArrayAdapter = new StableArrayAdapter(this, R.id.results, listData);
-        ListView listView = (ListView) this.findViewById(R.id.results);
+        listDataAnimals = Arrays.asList("alligator", "alpaca", "ant", "antelope",
+                "ape", "armadillo", "baboon", "badger", "bat", "bear", "beaver", "bee",
+                "beetle", "buffalo", "butterfly", "camel", "carabao", "caribou", "cat", "cattle",
+                "cheetah", "chimpanzee", "chinchilla", "cicada", "clam", "cockroach", "cod",
+                "coyote", "crab", "cricket", "crow", "deer", "dinosaur", "dog", "dolphin",
+                "duck",  "eel", "elephant", "elk", "ferret", "fish", "fly", "fox", "frog",
+                "gerbil",  "giraffe", "gnat", "gnu", "goat", "goldfish", "gorilla",
+                "grasshopper",  "guinea pig", "hamster", "hare", "hedgehog", "herring",
+                "hippopotamus", "hornet", "horse", "hound", "hyena", "impala", "insect",
+                "jackal",  "jellyfish", "kangaroo", "koala", "leopard", "lion", "lizard",
+                "llama",  "locust", "louse", "mallard", "mammoth", "manatee", "marten", "mink",
+                "minnow", "mole", "monkey", "moose", "mosquito", "mouse", "mule", "muskrat",
+                "otter", "ox", "oyster", "panda", "pig", "platypus", "porcupine", "prairie dog",
+                "pug", "rabbit", "raccoon", "reindeer", "rhinoceros", "salmon", "sardine",
+                "scorpion", "seal", "serval", "shark", "sheep", "skunk", "snail", "snake",
+                "spider", "squirrel", "termite", "tiger", "trout", "turtle", "walrus", "wasp",
+                "weasel", "whale", "wolf", "wombat", "woodchuck", "worm", "yak", "yellow jacket",
+                "zebra");
+
+        listView = (ListView) this.findViewById(R.id.results);
+        stableArrayAdapter = new StableArrayAdapter(this,
+                getSupportFragmentManager(), R.id.results, listDataElements, listView);
         listView.setAdapter(stableArrayAdapter);
+        setListActive(ListActive.ELEMENTS);
 
 
         if (savedInstanceState != null) {
@@ -94,11 +136,32 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*  list.add("New Item");
 
-                adapter.notifyDataSetChanged();*/
-                floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R
-                        .mipmap.ic_gps));
+                switchActiveList();
+
+                if (getListActive() == ListActive.ELEMENTS) {
+                    Log.d(TAG, "onClick: ELEMENTS");
+
+                    ListView listView = (ListView) activity.findViewById(R.id.results);
+                    stableArrayAdapter = new StableArrayAdapter(activity,
+                            getSupportFragmentManager(), R.id.results, listDataElements, listView);
+                    listView.setAdapter(stableArrayAdapter);
+
+                    floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R
+                            .drawable.ic_fab_e));
+
+                } else if (getListActive() == ListActive.ANIMALS) {
+                    Log.d(TAG, "onClick: ANIMALS");
+
+                    ListView listView = (ListView) activity.findViewById(R.id.results);
+                    stableArrayAdapter = new StableArrayAdapter(activity,
+                            getSupportFragmentManager(), R.id.results, listDataAnimals, listView);
+                    listView.setAdapter(stableArrayAdapter);
+
+                    floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R
+                            .drawable.ic_fab_a));
+                }
+
                 Log.d(TAG, "_--FAB pressed");
             }
         });
@@ -256,6 +319,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         Log.d(TAG, "attachBaseContext, newBase: " + newBase);
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
+
+    private void switchActiveList() {
+        if (getListActive() == ListActive.ELEMENTS) {
+            setListActive(ListActive.ANIMALS);
+        } else {
+            setListActive(ListActive.ELEMENTS);
+        }
+
     }
 
 }

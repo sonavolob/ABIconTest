@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--DialogFragment width ratio - in percent-->
+    <integer name="dialogFragmentWidthRatio">50</integer>
+    <!--DialogFragment min width[px] - if real width is >=  dialogFragmentMinWidth
+    than we work with dialogFragmentWidthRatio as if it were 100%-->
+    <integer name="dialogFragmentMinWidth">800</integer>
+</resources>

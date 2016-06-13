@@ -1,7 +1,8 @@
 package com.example.abicontest;
 
 import android.app.Activity;
-import android.content.Context;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -12,14 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,17 +28,33 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
     HashMap<String, Integer> idMap = new HashMap<>();
     ListView listView;
     Activity activity;
+    MainActivity mainActivity;
+    FragmentManager fragmentManager;
     final List<String> listData;
 
 
-    public StableArrayAdapter(Activity activity, int resource, List<String> listData) {
+    public StableArrayAdapter(Activity activity, FragmentManager fragmentManager, int resource,
+                              List<String> listData, ListView listView) {
         super(activity, resource, listData);
 
         this.activity = activity;
+        this.mainActivity = (MainActivity) activity;
         this.listData = listData;
-        listView = (ListView) activity.findViewById(R.id.results);
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(multiChoiceModeListener());
+        this.fragmentManager = fragmentManager;
+        this.listView = listView;
+/*        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(multiChoiceModeListener());*/
+
+
+
+        if (this.mainActivity.getListActive() ==  MainActivity.ListActive.ELEMENTS) {
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            listView.setOnItemLongClickListener(onItemLongClickListener());
+
+        } else if (this.mainActivity.getListActive() ==  MainActivity.ListActive.ANIMALS) {
+            listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            listView.setOnItemClickListener(onItemClickListener());
+        }
 
         for (int i = 0; i < this.listData.size(); i++) {
             idMap.put(listData.get(i), i);
@@ -165,5 +179,48 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
             }
         }
         return selectedItems;
+    }
+
+    private AdapterView.OnItemLongClickListener onItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String selElem = listData.get(listView.getPositionForView(view));
+                Log.d(TAG, "c7d48bbf2, onItemLongClick, view: " + view + ", adapterView: "
+                        + adapterView + ", i: " + i + ", l: " + l + ", selectedData: '" +
+                        selElem + "'");
+
+                android.support.v4.app.DialogFragment newFragment = TouchDialog.newInstance
+                        ("onItemLongClick",  selElem);
+                newFragment.show(fragmentManager, "touchDialogOnItemLongClick");
+
+//                showModalLongTouchDialog(items);
+
+                return true;
+            }
+        };
+    }
+
+    private AdapterView.OnItemClickListener onItemClickListener() {
+
+        return new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String selElem = listData.get(listView.getPositionForView(view));
+                Log.d(TAG, "c7d48bbf2, onItemClickListener, view: " + view + ", adapterView: "
+                        + adapterView + ", i: " + i + ", l: " + l + ", selectedData: '" +
+                        listData.get(listView.getPositionForView(view)) + "'");
+
+                android.support.v4.app.DialogFragment newFragment = TouchDialog.newInstance
+                        ("onItemClickListener", selElem);
+                newFragment.show(fragmentManager, "touchDialogOnItemClickListener");
+//                showModalLongTouchDialog(items);
+
+            }
+        };
     }
 }
